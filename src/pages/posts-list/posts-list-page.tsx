@@ -64,7 +64,7 @@ export function PostsListPage() {
 
       {postsData && postsData.total > 0 && (
         <p className="text-sm text-gray-500">
-          {t('posts.list.showing')} <span className="font-medium text-gray-700">{start}</span>-<span className="font-medium text-gray-700">{end}</span> {t('posts.list.of')}{' '}
+{t('posts.list.showing')} <span className="font-medium text-gray-700">{start}</span>-<span className="font-medium text-gray-700">{end}</span> {t('posts.list.of')}{' '}
           <span className="font-medium text-gray-700">{postsData.total}</span> {t('posts.list.results')}
         </p>
       )}
