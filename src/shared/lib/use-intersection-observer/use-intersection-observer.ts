@@ -14,7 +14,10 @@ export function useIntersectionObserver(
   const { threshold = 0.1, root = null, rootMargin = '0px', enabled = true } = options;
   const ref = useRef<HTMLDivElement>(null);
   const callbackRef = useRef(onIntersect);
-  callbackRef.current = onIntersect;
+
+  useEffect(() => {
+    callbackRef.current = onIntersect;
+  });
 
   useEffect(() => {
     if (!enabled || !ref.current) return;
