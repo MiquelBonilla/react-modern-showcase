@@ -1,11 +1,7 @@
-import { Navigate, useLocation, type ReactNode } from 'react';
+import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuthStore } from '@features/auth';
 
-interface RequireAuthProps {
-  children: ReactNode;
-}
-
-export function RequireAuth({ children }: RequireAuthProps) {
+export function RequireAuth() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const location = useLocation();
 
@@ -13,5 +9,5 @@ export function RequireAuth({ children }: RequireAuthProps) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 }

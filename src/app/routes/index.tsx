@@ -1,11 +1,11 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { RequireAuth } from './require-auth';
-import { RequireNoAuth } from './require-no-auth';
+import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import { PostsShell } from '@widgets/posts-shell';
 import { LoginPage } from '@pages/login';
 import { PostsListPage } from '@pages/posts-list';
 import { PostDetailPage } from '@pages/post-detail';
 import { PostFormPage } from '@pages/post-form';
+import { RequireAuth } from './require-auth';
+import { RequireNoAuth } from './require-no-auth';
 
 export const router = createBrowserRouter([
   {
@@ -13,36 +13,38 @@ export const router = createBrowserRouter([
     element: <Navigate to="/posts" replace />,
   },
   {
-    path: '/login',
-    element: (
-      <RequireNoAuth>
-        <LoginPage />
-      </RequireNoAuth>
-    ),
-  },
-  {
-    path: '/posts',
-    element: (
-      <RequireAuth>
-        <PostsShell />
-      </RequireAuth>
-    ),
+    element: <RequireNoAuth />,
     children: [
       {
-        index: true,
-        element: <PostsListPage />,
+        path: '/login',
+        element: <LoginPage />,
       },
+    ],
+  },
+  {
+    element: <RequireAuth />,
+    children: [
       {
-        path: 'new',
-        element: <PostFormPage />,
-      },
-      {
-        path: ':id',
-        element: <PostDetailPage />,
-      },
-      {
-        path: ':id/edit',
-        element: <PostFormPage />,
+        path: '/posts',
+        element: <PostsShell />,
+        children: [
+          {
+            index: true,
+            element: <PostsListPage />,
+          },
+          {
+            path: 'new',
+            element: <PostFormPage />,
+          },
+          {
+            path: ':id',
+            element: <PostDetailPage />,
+          },
+          {
+            path: ':id/edit',
+            element: <PostFormPage />,
+          },
+        ],
       },
     ],
   },
