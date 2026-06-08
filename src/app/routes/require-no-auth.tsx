@@ -1,11 +1,13 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '@features/auth';
 
 export function RequireNoAuth() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const [searchParams] = useSearchParams();
 
   if (isAuthenticated) {
-    return <Navigate to="/posts" replace />;
+    const returnUrl = searchParams.get('returnUrl') ?? '/posts';
+    return <Navigate to={decodeURIComponent(returnUrl)} replace />;
   }
 
   return <Outlet />;
