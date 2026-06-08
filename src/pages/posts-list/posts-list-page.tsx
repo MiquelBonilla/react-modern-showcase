@@ -43,7 +43,8 @@ export function PostsListPage() {
   });
 
   const totalPages = Math.ceil((postsData?.total ?? 0) / PAGE_SIZE);
-  const shownCount = Math.min(filters.page * PAGE_SIZE, postsData?.total ?? 0);
+  const start = (filters.page - 1) * PAGE_SIZE + 1;
+  const end = Math.min(filters.page * PAGE_SIZE, postsData?.total ?? 0);
 
   if (isLoading) {
     return <LoadingSpinner message="Loading posts..." />;
@@ -61,7 +62,7 @@ export function PostsListPage() {
 
       {postsData && postsData.total > 0 && (
         <p className="text-sm text-gray-500">
-          Showing <span className="font-medium text-gray-700">{shownCount}</span> of{' '}
+          Showing <span className="font-medium text-gray-700">{start}</span>-<span className="font-medium text-gray-700">{end}</span> of{' '}
           <span className="font-medium text-gray-700">{postsData.total}</span> results
         </p>
       )}
