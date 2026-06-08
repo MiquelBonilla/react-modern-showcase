@@ -1,4 +1,5 @@
-import { useInfiniteComments, getUsers } from '@entities/comment';
+import { useInfiniteComments } from '@entities/comment';
+import { getUsers } from '@entities/user';
 import { useQuery } from '@tanstack/react-query';
 import { useIntersectionObserver } from '@shared/lib/use-intersection-observer';
 import type { CommentWithAuthor } from '@entities/comment';

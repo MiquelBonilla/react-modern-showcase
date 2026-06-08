@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import type { User } from '@entities/user';
 import { setToken } from '@shared/api';
 
@@ -10,6 +10,8 @@ interface AuthState {
   setSession: (user: User, token: string) => void;
   logout: () => void;
 }
+
+const isBrowser = typeof window !== 'undefined';
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -28,6 +30,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'auth-storage',
+      storage: createJSONStorage(() => (isBrowser ? localStorage : { getItem: () => null, setItem: () => {}, removeItem: () => {} })),
       partialize: (state) => ({
         token: state.token,
         currentUser: state.currentUser,
