@@ -1,10 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useDeleteComment, commentKeys } from '@entities/comment';
+import { useDeleteComment as useDeleteCommentMutation, commentKeys } from '@entities/comment';
 import type { Comment } from '@entities/comment';
 
 export const useDeleteComment = (postId: number) => {
   const qc = useQueryClient();
-  const mutation = useDeleteComment();
+  const mutation = useDeleteCommentMutation();
 
   const handleDelete = async (id: number) => {
     let backup: { page: number; comment: Comment } | null = null;

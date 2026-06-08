@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { renderToPipeableStream, type RenderToPipeableStreamOptions } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom/server';
+import { StaticRouter } from 'react-router-dom';
 import { QueryProvider } from './app/providers/query-provider';
 import { AuthProvider } from './app/providers/auth-provider';
 import { App } from './App';
