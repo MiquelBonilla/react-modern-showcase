@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslation } from 'react-i18next';
 import { loginSchema, type LoginFormData } from '@features/auth';
 
 interface AuthFormProps {
@@ -9,6 +10,7 @@ interface AuthFormProps {
 }
 
 export function AuthForm({ onSubmit, isLoading = false, error = null }: AuthFormProps) {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -28,7 +30,7 @@ export function AuthForm({ onSubmit, isLoading = false, error = null }: AuthForm
           className="text-xs font-medium uppercase tracking-wide text-gray-500"
           htmlFor="login-name"
         >
-          Name
+          {t('login.username.label')}
         </label>
         <div className="relative flex items-center">
           <span className="pointer-events-none absolute left-3 text-gray-400">
@@ -44,7 +46,7 @@ export function AuthForm({ onSubmit, isLoading = false, error = null }: AuthForm
             id="login-name"
             {...register('name')}
             type="text"
-            placeholder="Enter your name"
+            placeholder={t('login.username.placeholder')}
             className="w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           />
         </div>
@@ -58,7 +60,7 @@ export function AuthForm({ onSubmit, isLoading = false, error = null }: AuthForm
           className="text-xs font-medium uppercase tracking-wide text-gray-500"
           htmlFor="login-password"
         >
-          Password
+          {t('login.password.label')}
         </label>
         <div className="relative flex items-center">
           <span className="pointer-events-none absolute left-3 text-gray-400">
@@ -74,7 +76,7 @@ export function AuthForm({ onSubmit, isLoading = false, error = null }: AuthForm
             id="login-password"
             {...register('password')}
             type="password"
-            placeholder="Enter your password"
+            placeholder={t('login.password.placeholder')}
             className="w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           />
         </div>
@@ -88,7 +90,7 @@ export function AuthForm({ onSubmit, isLoading = false, error = null }: AuthForm
         disabled={isLoading}
         className="w-full rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {isLoading ? 'Signing in...' : 'Sign in'}
+        {isLoading ? '...' : t('login.submit')}
       </button>
     </form>
   );

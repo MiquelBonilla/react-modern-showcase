@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '@features/auth';
 import {
   useInfiniteCommentsFeature,
@@ -16,11 +17,9 @@ interface PostCommentsProps {
   postId: number;
 }
 
-const commentSchema = z.object({
-  body: z.string().min(5, 'Comment must be at least 5 characters'),
-});
-
-type CommentFormData = z.infer<typeof commentSchema>;
+interface CommentFormData {
+  body: string;
+}
 
 export function PostComments({ postId }: PostCommentsProps) {
   const currentUser = useAuthStore((s) => s.currentUser);
@@ -29,6 +28,7 @@ export function PostComments({ postId }: PostCommentsProps) {
   const { handleAdd, isLoading: isAdding } = useAddComment(postId);
   const { handleEdit } = useEditComment(postId);
   const { handleDelete } = useDeleteComment(postId);
+  const { t } = useTranslation();
 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editBody, setEditBody] = useState('');
@@ -39,7 +39,11 @@ export function PostComments({ postId }: PostCommentsProps) {
     reset,
     formState: { errors },
   } = useForm<CommentFormData>({
-    resolver: zodResolver(commentSchema),
+    resolver: zodResolver(
+      z.object({
+        body: z.string().min(5, t('comments.errors.minLength')),
+      }),
+    ),
   });
 
   const onSubmitNew = async (data: CommentFormData) => {
@@ -65,13 +69,13 @@ export function PostComments({ postId }: PostCommentsProps) {
   };
 
   if (isLoading) {
-    return <LoadingSpinner message="Loading comments..." />;
+    return <LoadingSpinner message={t('posts.detail.loadingComments')} />;
   }
 
   return (
     <div className="space-y-6">
       {comments.length === 0 ? (
-        <p className="text-sm text-gray-400">No comments yet.</p>
+        <p className="text-sm text-gray-400">{t('comments.empty')}</p>
       ) : (
         <ul className="space-y-4">
           {comments.map((comment) => (
@@ -106,14 +110,14 @@ export function PostComments({ postId }: PostCommentsProps) {
                           onClick={() => onSaveEdit(comment.id)}
                           className="rounded bg-indigo-600 px-2 py-1 text-xs font-medium text-white hover:bg-indigo-700"
                         >
-                          Save
+                          {t('comments.saveChanges')}
                         </button>
                         <button
                           type="button"
                           onClick={onCancelEdit}
                           className="rounded px-2 py-1 text-xs font-medium text-gray-500 hover:bg-gray-100"
                         >
-                          Cancel
+                          {t('comments.cancelEdit')}
                         </button>
                       </>
                     ) : (
@@ -122,15 +126,17 @@ export function PostComments({ postId }: PostCommentsProps) {
                           type="button"
                           onClick={() => onStartEdit(comment)}
                           className="rounded px-2 py-1 text-xs font-medium text-indigo-500 hover:bg-indigo-50"
+                          aria-label={t('comments.editAria')}
                         >
-                          Edit
+                          {t('comments.edit')}
                         </button>
                         <button
                           type="button"
                           onClick={() => handleDelete(comment.id)}
                           className="rounded px-2 py-1 text-xs font-medium text-red-500 hover:bg-red-50"
+                          aria-label={t('comments.deleteAria')}
                         >
-                          Delete
+                          {t('comments.delete')}
                         </button>
                       </>
                     )}
@@ -142,7 +148,7 @@ export function PostComments({ postId }: PostCommentsProps) {
                 <textarea
                   value={editBody}
                   onChange={(e) => setEditBody(e.target.value)}
-                  placeholder="Edit your comment..."
+                  placeholder={t('comments.editPlaceholder')}
                   rows={3}
                   className="mt-2 w-full resize-none rounded-lg bg-slate-100 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none"
                 />
@@ -170,18 +176,18 @@ export function PostComments({ postId }: PostCommentsProps) {
         <div ref={sentinelRef} className="h-4 w-full" />
       )}
 
-      {isFetchingNextPage && <LoadingSpinner message="Loading more..." />}
+      {isFetchingNextPage && <LoadingSpinner message={t('comments.loadingMore')} />}
 
       <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
         <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-          Add a comment
+          {t('comments.add')}
         </h3>
 
         <form onSubmit={handleSubmit(onSubmitNew)} className="mt-3 space-y-3">
           <div className="flex flex-col gap-1">
             <textarea
               {...register('body')}
-              placeholder="Write your comment..."
+              placeholder={t('comments.placeholder')}
               rows={3}
               className="w-full resize-none rounded-lg bg-slate-100 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none"
             />
@@ -195,7 +201,7 @@ export function PostComments({ postId }: PostCommentsProps) {
             disabled={isAdding}
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {isAdding ? 'Publishing...' : 'Publish'}
+            {isAdding ? t('comments.publishing') : t('comments.publish')}
           </button>
         </form>
       </div>

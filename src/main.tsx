@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import { QueryProvider, createQueryClient } from './app/providers/query-provider';
 import { AuthProvider } from './app/providers/auth-provider';
 import { router } from './app/routes';
+import '@shared/lib/i18n';
 import './app/styles/globals.css';
 
 const container = document.getElementById('root')!;

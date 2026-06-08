@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { getUsers } from '@entities/user';
 import { getTags } from '@entities/post';
 import { usePostFilters } from '@features/posts';
@@ -8,6 +9,7 @@ import { useAuthStore } from '@features/auth';
 export function PostsFilters() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const { filters, setFilters } = usePostFilters();
+  const { t } = useTranslation();
 
   const { data: users = [] } = useQuery({
     queryKey: ['users'],
@@ -27,7 +29,7 @@ export function PostsFilters() {
             htmlFor="filter-author"
             className="text-xs font-medium uppercase tracking-wide text-gray-500"
           >
-            Authors
+            {t('posts.list.authors')}
           </label>
           <select
             id="filter-author"
@@ -37,7 +39,7 @@ export function PostsFilters() {
             }
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           >
-            <option value="">All</option>
+            <option value="">{t('posts.list.all')}</option>
             {users.map((user) => (
               <option key={user.id} value={user.id}>
                 {user.name}
@@ -51,7 +53,7 @@ export function PostsFilters() {
             htmlFor="filter-tag"
             className="text-xs font-medium uppercase tracking-wide text-gray-500"
           >
-            Tags
+            {t('posts.list.tags')}
           </label>
           <select
             id="filter-tag"
@@ -59,7 +61,7 @@ export function PostsFilters() {
             onChange={(e) => setFilters({ tag: e.target.value || null })}
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           >
-            <option value="">All</option>
+            <option value="">{t('posts.list.all')}</option>
             {tags.map((tag) => (
               <option key={tag} value={tag}>
                 {tag}
@@ -74,7 +76,7 @@ export function PostsFilters() {
           to="/posts/new"
           className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-br from-blue-700 to-blue-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:from-blue-800 hover:to-blue-600"
         >
-          New Post
+          {t('posts.list.newPost')}
         </Link>
       )}
     </div>
