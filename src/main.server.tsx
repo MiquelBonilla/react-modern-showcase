@@ -5,8 +5,13 @@ import { QueryProvider, createQueryClient, dehydrate } from './app/providers/que
 import { AuthProvider } from './app/providers/auth-provider';
 import { App } from './App';
 
-export function render(url: string, options: RenderToPipeableStreamOptions) {
+export function render(
+  url: string,
+  options: RenderToPipeableStreamOptions & { dehydratedState?: string },
+) {
   const queryClient = createQueryClient();
+
+  const dehydratedState = JSON.stringify(dehydrate(queryClient));
 
   return renderToPipeableStream(
     <StrictMode>
@@ -20,9 +25,7 @@ export function render(url: string, options: RenderToPipeableStreamOptions) {
     </StrictMode>,
     {
       ...options,
-      bootstrapScriptContent: `
-        window.__REACT_QUERY_STATE__ = ${JSON.stringify(dehydrate(queryClient))};
-      `,
+      bootstrapScriptContent: `window.__REACT_QUERY_STATE__=${dehydratedState};`,
     },
   );
 }
