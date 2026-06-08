@@ -7,7 +7,7 @@ import { useAuthStore } from '@features/auth';
 
 export function PostsFilters() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const { filters, setFilters } = usePostFilters();
+  const { filters, setFilters, localSearch, onSearchChange } = usePostFilters();
 
   const { data: users = [] } = useQuery({
     queryKey: ['users'],
@@ -32,8 +32,8 @@ export function PostsFilters() {
           <input
             id="filter-search"
             type="search"
-            value={filters.searchQuery}
-            onChange={(e) => setFilters({ searchQuery: e.target.value })}
+            value={localSearch}
+            onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search posts..."
             className="w-full max-w-xs rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
           />
