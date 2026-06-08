@@ -1,17 +1,14 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLogout } from '@features/auth';
 import { useAuthStore } from '@features/auth';
-import { useState } from 'react';
+import { usePostFilters } from '@features/posts';
 
 export function PostsShell() {
-  const location = useLocation();
   const handleLogout = useLogout();
   const currentUser = useAuthStore((s) => s.currentUser);
   const { t, i18n } = useTranslation();
-  const [search, setSearch] = useState('');
-
-  const showSearch = location.pathname === '/posts';
+  const { localSearch, onSearchChange } = usePostFilters();
 
   const toggleLang = () => {
     const next = i18n.language === 'en' ? 'es' : 'en';
@@ -26,12 +23,12 @@ export function PostsShell() {
             {t('shell.title')}
           </Link>
 
-          <div className={`flex-1 ${showSearch ? '' : 'invisible'}`}>
+          <div className="flex-1">
             <input
               type="search"
+              value={localSearch}
+              onChange={(e) => onSearchChange(e.target.value)}
               placeholder={t('shell.search')}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
               className="w-full max-w-sm rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             />
           </div>
