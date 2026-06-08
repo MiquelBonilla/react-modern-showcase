@@ -7,7 +7,7 @@ import { useAuthStore } from '@features/auth';
 
 export function PostsFilters() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const { filters, setFilters, localSearch, onSearchChange } = usePostFilters();
+  const { filters, setFilters } = usePostFilters();
 
   const { data: users = [] } = useQuery({
     queryKey: ['users'],
@@ -22,23 +22,6 @@ export function PostsFilters() {
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div className="flex flex-wrap items-start gap-4">
-        <div className="flex flex-col gap-1">
-          <label
-            htmlFor="filter-search"
-            className="text-xs font-medium uppercase tracking-wide text-gray-500"
-          >
-            Search
-          </label>
-          <input
-            id="filter-search"
-            type="search"
-            value={localSearch}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search posts..."
-            className="w-full max-w-xs rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-          />
-        </div>
-
         <div className="flex flex-col gap-1">
           <label
             htmlFor="filter-author"
