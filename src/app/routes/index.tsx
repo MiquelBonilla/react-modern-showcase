@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { PostsShell } from '@widgets/posts-shell';
 import { LoginPage } from '@pages/login';
 import { PostsListPage } from '@pages/posts-list';
