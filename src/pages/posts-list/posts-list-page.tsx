@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { usePostsPage, useTags } from '@entities/post';
+import { usePostsPage } from '@entities/post';
 import { getUsers } from '@entities/user';
 import { usePostFilters } from '@features/posts';
 import { PostsFilters } from '@widgets/posts-filters';
@@ -27,8 +27,6 @@ export function PostsListPage() {
     queryKey: ['users'],
     queryFn: getUsers,
   });
-
-  const { data: tags = [] } = useTags();
 
   const userMap = new Map(users.map((u) => [u.id, u]));
 
