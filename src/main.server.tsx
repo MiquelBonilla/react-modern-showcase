@@ -16,6 +16,11 @@ export function render(url: string, options: RenderToPipeableStreamOptions) {
         </QueryProvider>
       </StaticRouter>
     </StrictMode>,
-    options,
+    {
+      ...options,
+      bootstrapScriptContent: `
+        window.__INITIAL_STATE__ = {};
+      `,
+    },
   );
 }
