@@ -1,0 +1,106 @@
+{
+  "shell": {
+    "title": "TechPoC",
+    "search": "Buscar posts",
+    "logout": "Salir",
+    "lang": {
+      "es": "Español",
+      "en": "Inglés"
+    }
+  },
+  "login": {
+    "welcome": "Bienvenido",
+    "subtitle": "Introduce tus credenciales",
+    "username": {
+      "label": "Usuario",
+      "placeholder": "Tu nombre de usuario"
+    },
+    "password": {
+      "label": "Contraseña",
+      "placeholder": "Tu contraseña"
+    },
+    "submit": "Acceder",
+    "errors": {
+      "usernameRequired": "El nombre es requerido",
+      "passwordRequired": "La contraseña es requerida"
+    }
+  },
+  "posts": {
+    "list": {
+      "title": "Lista de Posts",
+      "authors": "Autores",
+      "all": "Todos",
+      "tags": "Tags",
+      "newPost": "Nuevo Post",
+      "showing": "Mostrando",
+      "of": "de",
+      "results": "resultados",
+      "loading": "Cargando posts...",
+      "empty": "No hay posts que coincidan con tu búsqueda."
+    },
+    "detail": {
+      "loading": "Cargando post...",
+      "error": "No se pudo cargar el post.",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "comments": "Comentarios",
+      "loadingComments": "Descargando módulo de comentarios...",
+      "confirmDelete": "¿Eliminar este post? Esta acción no se puede deshacer."
+    },
+    "form": {
+      "loading": "Cargando post...",
+      "error": "No se pudo cargar el post.",
+      "forbidden": "No tienes permiso para editar este post.",
+      "editTitle": "Editar post",
+      "newTitle": "Nueva post",
+      "titleLabel": "Título",
+      "titlePlaceholder": "Escribe un título...",
+      "contentLabel": "Contenido",
+      "contentPlaceholder": "Escribe el contenido del post...",
+      "tagsLabel": "Tags",
+      "tagsPlaceholder": "angular, signals, performance",
+      "tagsHint": "Separa los tags con comas. El símbolo # es opcional.",
+      "requiredHint": "Los campos Título y Contenido son obligatorios.",
+      "cancel": "Cancelar",
+      "saveChanges": "Guardar cambios",
+      "publish": "Publicar",
+      "errors": {
+        "titleRequired": "El título es requerido",
+        "titleMin": "El título debe tener al menos 5 caracteres",
+        "titleMax": "El título no puede superar los 120 caracteres",
+        "contentRequired": "El contenido es requerido",
+        "contentMin": "El contenido debe tener al menos 10 caracteres",
+        "unauthenticated": "Usuario no autenticado",
+        "saveFailed": "Error al guardar el post"
+      }
+    }
+  },
+  "comments": {
+    "empty": "Aún no hay comentarios. ¡Sé el primero!",
+    "deleteAria": "Eliminar comentario",
+    "delete": "Eliminar",
+    "editAria": "Editar comentario",
+    "edit": "Editar",
+    "saveChanges": "Guardar cambios",
+    "saveAria": "Guardar cambios",
+    "cancelEdit": "Cancelar",
+    "cancelEditAria": "Cancelar edición",
+    "editPlaceholder": "Edita tu comentario...",
+    "loadingMore": "Cargando más comentarios...",
+    "add": "Añadir comentario",
+    "placeholder": "Escribe tu comentario...",
+    "publishing": "Publicando...",
+    "publish": "Publicar comentario",
+    "errors": {
+      "empty": "El comentario no puede estar vacío",
+      "minLength": "El comentario debe tener al menos 5 caracteres",
+      "publishFailed": "Error al publicar el comentario",
+      "editFailed": "Error al guardar el comentario"
+    }
+  },
+  "paginator": {
+    "aria": "Paginación",
+    "prev": "Página anterior",
+    "next": "Página siguiente"
+  }
+}

@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { lazy, Suspense, useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { usePostDetail } from '@entities/post';
 import { getUsers } from '@entities/user';
 import { useAuthStore } from '@features/auth';
@@ -20,6 +21,7 @@ export function PostDetailPage() {
   const postId = Number(id);
   const currentUser = useAuthStore((s) => s.currentUser);
   const { handleDelete } = useDeletePostFeature();
+  const { t } = useTranslation();
 
   const { data: post, isLoading, error } = usePostDetail(postId);
 
@@ -64,17 +66,17 @@ export function PostDetailPage() {
   }, []);
 
   const onDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this post?')) return;
+    if (!window.confirm(t('posts.detail.confirmDelete'))) return;
     await handleDelete(postId);
     navigate('/posts');
   };
 
   if (isLoading) {
-    return <LoadingSpinner message="Loading post..." />;
+    return <LoadingSpinner message={t('posts.detail.loading')} />;
   }
 
   if (error || !postWithAuthor) {
-    return <ErrorState message="Failed to load post" onRetry={() => window.location.reload()} />;
+    return <ErrorState message={t('posts.detail.error')} onRetry={() => window.location.reload()} />;
   }
 
   return (
@@ -113,14 +115,14 @@ export function PostDetailPage() {
                 to={`/posts/${postId}/edit`}
                 className="inline-flex items-center rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-200"
               >
-                Edit
+                {t('posts.detail.edit')}
               </Link>
               <button
                 type="button"
                 onClick={onDelete}
                 className="inline-flex items-center rounded-lg bg-red-50 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200"
               >
-                Delete
+                {t('posts.detail.delete')}
               </button>
             </>
           )}
@@ -143,11 +145,11 @@ export function PostDetailPage() {
       )}
 
       <section>
-        <h2 className="mb-4 text-lg font-semibold text-gray-800">Comments</h2>
+        <h2 className="mb-4 text-lg font-semibold text-gray-800">{t('posts.detail.comments')}</h2>
 
         <div ref={commentsRef}>
           {showComments ? (
-            <Suspense fallback={<LoadingSpinner message="Loading comments..." />}>
+            <Suspense fallback={<LoadingSpinner message={t('posts.detail.loadingComments')} />}>
               <PostComments postId={postId} />
             </Suspense>
           ) : (

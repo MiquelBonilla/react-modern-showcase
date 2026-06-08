@@ -1,11 +1,18 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LoadingSpinner } from './loading-spinner';
+
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+    i18n: { language: 'en' },
+  }),
+}));
 
 describe('LoadingSpinner', () => {
   it('renders with default message', () => {
     render(<LoadingSpinner />);
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByText('posts.list.loading')).toBeInTheDocument();
   });
 
   it('renders with custom message', () => {

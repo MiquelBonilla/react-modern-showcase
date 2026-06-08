@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { usePostsPage } from '@entities/post';
 import { getUsers } from '@entities/user';
 import { usePostFilters } from '@features/posts';
@@ -14,6 +15,7 @@ const PAGE_SIZE = 9;
 
 export function PostsListPage() {
   const { filters, setFilters } = usePostFilters();
+  const { t } = useTranslation();
 
   const { data: postsData, isLoading, error } = usePostsPage({
     page: filters.page,
@@ -43,31 +45,32 @@ export function PostsListPage() {
   });
 
   const totalPages = Math.ceil((postsData?.total ?? 0) / PAGE_SIZE);
-  const shownCount = Math.min(filters.page * PAGE_SIZE, postsData?.total ?? 0);
+  const start = (filters.page - 1) * PAGE_SIZE + 1;
+  const end = Math.min(filters.page * PAGE_SIZE, postsData?.total ?? 0);
 
   if (isLoading) {
-    return <LoadingSpinner message="Loading posts..." />;
+    return <LoadingSpinner message={t('posts.list.loading')} />;
   }
 
   if (error) {
-    return <ErrorState message="Failed to load posts" onRetry={() => window.location.reload()} />;
+    return <ErrorState message={t('posts.detail.error')} onRetry={() => window.location.reload()} />;
   }
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Posts</h1>
+      <h1 className="text-2xl font-bold text-gray-900">{t('posts.list.title')}</h1>
 
       <PostsFilters />
 
       {postsData && postsData.total > 0 && (
         <p className="text-sm text-gray-500">
-          Showing <span className="font-medium text-gray-700">{shownCount}</span> of{' '}
-          <span className="font-medium text-gray-700">{postsData.total}</span> results
+          {t('posts.list.showing')} <span className="font-medium text-gray-700">{start}</span>-<span className="font-medium text-gray-700">{end}</span> {t('posts.list.of')}{' '}
+          <span className="font-medium text-gray-700">{postsData.total}</span> {t('posts.list.results')}
         </p>
       )}
 
       {postsWithAuthor.length === 0 ? (
-        <EmptyState message="No posts found" />
+        <EmptyState message={t('posts.list.empty')} />
       ) : (
         <div className="transition-opacity duration-150">
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

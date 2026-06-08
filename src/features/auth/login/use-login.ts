@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { login } from '@entities/user';
 import { useAuthStore } from '../model/auth.store';
 import type { Credentials } from '@entities/user';
 
 export const useLogin = (returnUrl = '/posts') => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const setSession = useAuthStore((s) => s.setSession);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -17,9 +19,9 @@ export const useLogin = (returnUrl = '/posts') => {
       const user = await login(credentials);
       const token = `static-token-${user.id}`;
       setSession(user, token);
-      await navigate(returnUrl);
+      navigate(returnUrl);
     } catch {
-      setError('Invalid name or password');
+      setError(t('login.errors.usernameRequired'));
     } finally {
       setIsLoading(false);
     }

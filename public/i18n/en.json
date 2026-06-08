@@ -1,0 +1,106 @@
+{
+  "shell": {
+    "title": "TechPoC",
+    "search": "Search posts",
+    "logout": "Logout",
+    "lang": {
+      "es": "Spanish",
+      "en": "English"
+    }
+  },
+  "login": {
+    "welcome": "Welcome",
+    "subtitle": "Enter your credentials",
+    "username": {
+      "label": "Username",
+      "placeholder": "Your username"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Your password"
+    },
+    "submit": "Sign in",
+    "errors": {
+      "usernameRequired": "Username is required",
+      "passwordRequired": "Password is required"
+    }
+  },
+  "posts": {
+    "list": {
+      "title": "Posts List",
+      "authors": "Authors",
+      "all": "All",
+      "tags": "Tags",
+      "newPost": "New Post",
+      "showing": "Showing",
+      "of": "of",
+      "results": "results",
+      "loading": "Loading posts...",
+      "empty": "No posts match your search."
+    },
+    "detail": {
+      "loading": "Loading post...",
+      "error": "Could not load the post.",
+      "edit": "Edit",
+      "delete": "Delete",
+      "comments": "Comments",
+      "loadingComments": "Loading comments module...",
+      "confirmDelete": "Delete this post? This action cannot be undone."
+    },
+    "form": {
+      "loading": "Loading post...",
+      "error": "Could not load the post.",
+      "forbidden": "You do not have permission to edit this post.",
+      "editTitle": "Edit post",
+      "newTitle": "New post",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Write a title...",
+      "contentLabel": "Content",
+      "contentPlaceholder": "Write the post content...",
+      "tagsLabel": "Tags",
+      "tagsPlaceholder": "angular, signals, performance",
+      "tagsHint": "Separate tags with commas. The # symbol is optional.",
+      "requiredHint": "Title and Content fields are required.",
+      "cancel": "Cancel",
+      "saveChanges": "Save changes",
+      "publish": "Publish",
+      "errors": {
+        "titleRequired": "Title is required",
+        "titleMin": "Title must be at least 5 characters",
+        "titleMax": "Title cannot exceed 120 characters",
+        "contentRequired": "Content is required",
+        "contentMin": "Content must be at least 10 characters",
+        "unauthenticated": "User not authenticated",
+        "saveFailed": "Error saving the post"
+      }
+    }
+  },
+  "comments": {
+    "empty": "No comments yet. Be the first!",
+    "deleteAria": "Delete comment",
+    "delete": "Delete",
+    "editAria": "Edit comment",
+    "edit": "Edit",
+    "saveChanges": "Save changes",
+    "saveAria": "Save changes",
+    "cancelEdit": "Cancel",
+    "cancelEditAria": "Cancel edit",
+    "editPlaceholder": "Edit your comment...",
+    "loadingMore": "Loading more comments...",
+    "add": "Add comment",
+    "placeholder": "Write your comment...",
+    "publishing": "Publishing...",
+    "publish": "Publish comment",
+    "errors": {
+      "empty": "Comment cannot be empty",
+      "minLength": "Comment must be at least 5 characters",
+      "publishFailed": "Error publishing the comment",
+      "editFailed": "Error saving the comment"
+    }
+  },
+  "paginator": {
+    "aria": "Pagination",
+    "prev": "Previous page",
+    "next": "Next page"
+  }
+}

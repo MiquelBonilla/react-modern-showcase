@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from '@shared/lib/use-media-query';
 
 interface PaginatorProps {
@@ -30,6 +31,7 @@ function buildPages(current: number, total: number, win: number): (number | '...
 export function Paginator({ currentPage, totalPages, onPageChange }: PaginatorProps) {
   const isMobile = useMediaQuery('(max-width: 639px)');
   const windowSize = isMobile ? 0 : 2;
+  const { t } = useTranslation();
 
   const pages = useMemo(
     () => buildPages(currentPage, totalPages, windowSize),
@@ -42,12 +44,12 @@ export function Paginator({ currentPage, totalPages, onPageChange }: PaginatorPr
   };
 
   return (
-    <nav className="flex items-center justify-center gap-1" aria-label="Pagination">
+    <nav className="flex items-center justify-center gap-1" aria-label={t('paginator.aria')}>
       <button
         onClick={() => goTo(currentPage - 1)}
         disabled={currentPage === 1}
         className="flex items-center justify-center rounded-lg p-2 text-gray-600 transition-colors disabled:cursor-not-allowed disabled:opacity-40 enabled:hover:bg-indigo-50 enabled:hover:text-indigo-700"
-        aria-label="Previous page"
+        aria-label={t('paginator.prev')}
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="size-5" viewBox="0 0 20 20" fill="currentColor">
           <path
@@ -83,7 +85,7 @@ export function Paginator({ currentPage, totalPages, onPageChange }: PaginatorPr
         onClick={() => goTo(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="flex items-center justify-center rounded-lg p-2 text-gray-600 transition-colors disabled:cursor-not-allowed disabled:opacity-40 enabled:hover:bg-indigo-50 enabled:hover:text-indigo-700"
-        aria-label="Next page"
+        aria-label={t('paginator.next')}
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="size-5" viewBox="0 0 20 20" fill="currentColor">
           <path
