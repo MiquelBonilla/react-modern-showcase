@@ -1,17 +1,32 @@
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { QueryProvider } from './app/providers/query-provider';
 import { AuthProvider } from './app/providers/auth-provider';
 import { router } from './app/routes';
 import './app/styles/globals.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <QueryProvider>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </QueryProvider>
-  </StrictMode>,
-);
+const container = document.getElementById('root')!;
+
+if (container.hasChildNodes()) {
+  hydrateRoot(
+    container,
+    <StrictMode>
+      <QueryProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </QueryProvider>
+    </StrictMode>,
+  );
+} else {
+  createRoot(container).render(
+    <StrictMode>
+      <QueryProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </QueryProvider>
+    </StrictMode>,
+  );
+}
