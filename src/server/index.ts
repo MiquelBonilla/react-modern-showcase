@@ -1,18 +1,28 @@
 import express from 'express';
-import { render } from '../main.server';
+import fs from 'fs';
 import path from 'path';
+import { render } from '../main.server';
 
 const app = express();
 
 const clientDistPath = path.resolve(__dirname, '../client');
 
-app.use('/assets', express.static(path.join(clientDistPath, 'assets')));
+app.use(express.static(clientDistPath, { index: false }));
 
-app.use('*', (req, res) => {
+const template = fs.readFileSync(path.join(clientDistPath, 'index.html'), 'utf-8');
+const [templateHead, templateTail] = template.split('<!--ssr-outlet-->');
+
+app.get('*', (req, res) => {
+  res.setHeader('Content-Type', 'text/html');
+  res.write(templateHead);
+
   const { pipe } = render(req.url, {
     onShellReady() {
-      res.setHeader('Content-Type', 'text/html');
       pipe(res);
+    },
+    onAllReady() {
+      res.write(templateTail);
+      res.end();
     },
     onShellError() {
       res.status(500).send('Server error');
