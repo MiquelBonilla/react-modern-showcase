@@ -1,12 +1,10 @@
 import express from 'express';
 import { render } from '../main.server';
 import path from 'path';
-import fs from 'fs';
 
 const app = express();
 
 const clientDistPath = path.resolve(__dirname, '../client');
-const template = fs.readFileSync(path.join(clientDistPath, 'index.html'), 'utf-8');
 
 app.use('/assets', express.static(path.join(clientDistPath, 'assets')));
 
