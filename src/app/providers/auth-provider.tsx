@@ -1,24 +1,25 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useSyncExternalStore, type ReactNode } from 'react';
 import { useAuthStore } from '@features/auth';
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
+function subscribe(callback: () => void) {
+  const unsubscribe = useAuthStore.persist.onFinishHydration(callback);
+  return unsubscribe;
+}
+
+function getSnapshot() {
+  return useAuthStore.persist.hasHydrated();
+}
+
+function getServerSnapshot() {
+  return true;
+}
+
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [isHydrated, setIsHydrated] = useState(false);
-
-  useEffect(() => {
-    const unsubscribe = useAuthStore.persist.onFinishHydration(() => {
-      setIsHydrated(true);
-    });
-
-    if (useAuthStore.persist.hasHydrated()) {
-      setIsHydrated(true);
-    }
-
-    return unsubscribe;
-  }, []);
+  const isHydrated = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   if (!isHydrated) {
     return null;
