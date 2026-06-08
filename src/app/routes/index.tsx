@@ -22,29 +22,28 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    element: <RequireAuth />,
+    path: '/posts',
+    element: (
+      <RequireAuth>
+        <PostsShell />
+      </RequireAuth>
+    ),
     children: [
       {
-        path: '/posts',
-        element: <PostsShell />,
-        children: [
-          {
-            index: true,
-            element: <PostsListPage />,
-          },
-          {
-            path: 'new',
-            element: <PostFormPage />,
-          },
-          {
-            path: ':id',
-            element: <PostDetailPage />,
-          },
-          {
-            path: ':id/edit',
-            element: <PostFormPage />,
-          },
-        ],
+        index: true,
+        element: <PostsListPage />,
+      },
+      {
+        path: 'new',
+        element: <PostFormPage />,
+      },
+      {
+        path: ':id',
+        element: <PostDetailPage />,
+      },
+      {
+        path: ':id/edit',
+        element: <PostFormPage />,
       },
     ],
   },
