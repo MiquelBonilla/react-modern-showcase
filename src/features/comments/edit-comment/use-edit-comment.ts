@@ -2,6 +2,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useUpdateComment, commentKeys } from '@entities/comment';
 import type { Comment } from '@entities/comment';
 
+type InfiniteData = { pages: Comment[][]; pageParams: unknown[] };
+
 export const useEditComment = (postId: number) => {
   const qc = useQueryClient();
   const mutation = useUpdateComment();
@@ -11,19 +13,18 @@ export const useEditComment = (postId: number) => {
 
     qc.setQueryData(commentKeys.commentsKey(postId), (old: unknown) => {
       if (!old) return old;
-      const data = old as { pages: { comments: Comment[] }[] };
+      const data = old as InfiniteData;
       return {
         ...data,
-        pages: data.pages.map((page) => ({
-          ...page,
-          comments: page.comments.map((c) => {
+        pages: data.pages.map((page) =>
+          page.map((c) => {
             if (c.id === id) {
               backup = c;
               return { ...c, body };
             }
             return c;
           }),
-        })),
+        ),
       };
     });
 
@@ -33,13 +34,12 @@ export const useEditComment = (postId: number) => {
       if (backup) {
         qc.setQueryData(commentKeys.commentsKey(postId), (old: unknown) => {
           if (!old) return old;
-          const data = old as { pages: { comments: Comment[] }[] };
+          const data = old as InfiniteData;
           return {
             ...data,
-            pages: data.pages.map((page) => ({
-              ...page,
-              comments: page.comments.map((c) => (c.id === id ? backup! : c)),
-            })),
+            pages: data.pages.map((page) =>
+              page.map((c) => (c.id === id ? backup! : c)),
+            ),
           };
         });
       }

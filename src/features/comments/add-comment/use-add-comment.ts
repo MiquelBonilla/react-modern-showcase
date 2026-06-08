@@ -3,6 +3,8 @@ import { useCreateComment, commentKeys } from '@entities/comment';
 import { useAuthStore } from '@features/auth';
 import type { Comment } from '@entities/comment';
 
+type InfiniteData = { pages: Comment[][]; pageParams: unknown[] };
+
 export const useAddComment = (postId: number) => {
   const qc = useQueryClient();
   const currentUser = useAuthStore((s) => s.currentUser);
@@ -22,13 +24,10 @@ export const useAddComment = (postId: number) => {
 
     qc.setQueryData(commentKeys.commentsKey(postId), (old: unknown) => {
       if (!old) return old;
-      const data = old as { pages: { comments: Comment[] }[] };
-      return {
-        ...data,
-        pages: data.pages.map((page, i) =>
-          i === 0 ? { ...page, comments: [...page.comments, tempComment] } : page,
-        ),
-      };
+      const data = old as InfiniteData;
+      const pages = [...data.pages];
+      pages[pages.length - 1] = [...pages[pages.length - 1], tempComment];
+      return { ...data, pages };
     });
 
     try {
@@ -41,13 +40,10 @@ export const useAddComment = (postId: number) => {
     } catch {
       qc.setQueryData(commentKeys.commentsKey(postId), (old: unknown) => {
         if (!old) return old;
-        const data = old as { pages: { comments: Comment[] }[] };
+        const data = old as InfiniteData;
         return {
           ...data,
-          pages: data.pages.map((page) => ({
-            ...page,
-            comments: page.comments.filter((c) => c.id !== tempId),
-          })),
+          pages: data.pages.map((page) => page.filter((c) => c.id !== tempId)),
         };
       });
     }
